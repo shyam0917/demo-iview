@@ -1,0 +1,50 @@
+
+<!-- movie information to be dislayed in movie-list -->
+<div class="row">
+  <div class="col-md-4 col-sm-6 px-0">
+   <img *ngIf="movie.poster_path" class="img-fluid d-block mx-auto px-0" [attr.src]="movieUrl+movie.poster_path" alt="Image not found"> 
+   <img *ngIf="!movie.poster_path" class="img-fluid d-block mx-auto px-0" src="https://gl-images.condecdn.net/image/Qd470kwpjnn/crop/405/f/Hugh-Jackman_glamour_20may14_rex_b.jpg" alt="Image not found"> 
+  </div>
+ <div class="col-md-8 col-sm-6 px-0">
+  <div class="card-body pt-0">
+    <h5 class="card-title text-center ">{{movie.title}}</h5>
+    <p class="card-text"><strong>Overview:</strong>&nbsp;{{(movie.overview .length>70)? (movie.overview | slice:0:140)+'..':(movie.overview)}}</p>
+    <p class="card-text"><strong>Rating:</strong> {{movie.vote_average}}</p>
+  </div>
+</div>
+<div *ngIf="flag === 'search'">
+  <a class="btn btn-primary btn-add" (click)="addToFavorite(movie)" >Add to favourite</a>
+</div>
+<div *ngIf="flag === 'list'">
+  <a class="btn btn-danger btn-add" (click)="deleteMovie(movie._id)" >Delete</a>
+  <button type="button" class="btn btn-primary btn-update" (click)="open(content)">
+    Update
+  </button>
+  <!-- <button type="button" class="btn btn-primary btn-update" data-toggle="modal"  [attr.data-target]="'#' +movie.id">
+    Update
+  </button> -->
+</div>
+</div>
+
+<!-- Button trigger modal -->
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Update Movie</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form #form="ngForm">
+      <input class="form-control" type="text" hidden name="id" [(ngModel)]="movie.id">
+     <input class="form-control mb-3" type="text" name="title" placeholder="Movie Title"
+       [(ngModel)]="movie.title">
+     <textarea class="form-control mb-3" type="text" name="overview" placeholder="Overview" [(ngModel)]="movie.overview"></textarea>
+     <input class="form-control mb-3" type="text" name="Rating" placeholder="Rating" [(ngModel)]="movie.vote_average">
+   </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-success" (click)="update(movie)">Update</button>
+  </div>
+</ng-template>

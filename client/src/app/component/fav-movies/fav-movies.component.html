@@ -1,0 +1,9 @@
+<!-- Display message when no result found for entered movie  -->
+<div *ngIf="favMovies && !favMovies.length" class="jumbotron mt-3 mx-3">
+    <h3 class="display-4">OOps! Empty Favourite List</h3>
+    <p class="lead">No Record Found.</p>
+  </div>
+
+<!-- movie list  -->
+<app-movie-list [movies]="favMovies" (favArray) ="setFavMovieList($event)" (updArray)="updateFavMovieList($event)" [flag]="flag"></app-movie-list>
+
